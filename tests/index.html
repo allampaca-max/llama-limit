@@ -1,0 +1,12 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>라마 리밋 규칙 테스트</title>
+<style>body { font: 15px/1.5 system-ui, sans-serif; background: #fbf2e4; color: #4a3326; padding: 24px; } pre { white-space: pre-wrap; }</style>
+<h1>라마 리밋 규칙 테스트</h1>
+<pre id="out"></pre>
+<script>
+  window.print = (s) => { document.getElementById('out').textContent += s + '\n'; };
+</script>
+<script src="../engine.js"></script>
+<script src="../bot.js"></script>
+<script src="engine.test.js"></script>

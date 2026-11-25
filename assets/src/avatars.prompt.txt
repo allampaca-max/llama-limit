@@ -1,0 +1,15 @@
+Use your built-in image generation tool. Transparent background: true.
+
+Create ONE image, approximately 1536 x 1024 pixels (landscape), that is a character sheet of FIVE separate plush toy mascot portraits for a cozy card game, arranged in a single horizontal row, evenly spaced, with clear empty transparent space between each character so they can be cut apart (no overlapping, no touching, nothing crossing between them).
+Each character: a cute handmade plush alpaca or llama, head and upper body only (bust portrait), facing the viewer, all the same size, same camera angle, same soft lighting, same art style - fluffy fleece texture, stitched embroidered black eyes and a small stitched smile, little felt ears, rosy felt cheeks.
+From left to right:
+1. cream-white alpaca with a fluffy topknot and a small red knitted scarf
+2. blush-pink alpaca with a little lavender ribbon bow on its head
+3. mint-green llama with a tiny knitted yellow beanie
+4. lavender-purple alpaca with a small white daisy behind one ear
+5. caramel-brown llama with a tiny sky-blue bandana around its neck
+Style: high-quality 3D-render-like look of real plush toys, soft studio light, wholesome and adorable, consistent across all five.
+Background: fully transparent (alpha), no floor, no cast shadow plate, no frame, no circles behind them.
+Constraints: exactly five characters in one row; no text, no letters, no numbers, no watermark.
+
+Save the final image as a PNG file at: ./avatars.png (in the current working directory). Then reply with just the saved path.

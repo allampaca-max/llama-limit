@@ -1,0 +1,8 @@
+Use your built-in image generation tool. Transparent background: false.
+
+Create ONE portrait image, approximately 1024 x 1536 pixels (2:3), showing the BACK design of a playing card for a cozy plush-toy themed card game. The design fills the entire image edge to edge: the image IS the card back, seen flat from the front, no table, no perspective, no drop shadow, no rounded corner cut-outs.
+Design: soft knitted wool texture in warm cocoa-rose and cream, a symmetric Fair-Isle style knit pattern of small hearts and diamonds, a cream band of knit stitches as a border around all four edges, and in the exact center an embroidered round patch with a cute alpaca face stitched in thread.
+Style: tactile and cozy, high-quality textile photograph look, evenly lit, symmetric.
+Constraints: no text, letters, numbers or watermark.
+
+Save the final image as a PNG file at: ./cardback.png (in the current working directory). Then reply with just the saved path.

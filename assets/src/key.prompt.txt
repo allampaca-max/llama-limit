@@ -1,0 +1,11 @@
+Use your built-in image generation tool. Transparent background: false.
+
+Create ONE finished wide landscape key-art illustration, approximately 1536 x 1024 pixels (3:2 landscape), for an original cozy 2-5 player card-and-chip game called Llama Limit, where cute plush alpacas and llamas draw number cards and try to get as close as possible to a target number rolled on an eight-sided die without going over. Do NOT render the game name or any text.
+Use case: stylized-concept. Asset type: game key art for a lobby screen.
+Scene: four or five adorable handmade plush toy alpacas and llamas (soft fuzzy fleece, felt hooves, stitched embroidered smiling eyes, rosy felt cheeks, tiny accessories like a red knitted scarf, a lavender bow, a little yellow beanie) sit around a small round card table covered in pale sage-mint felt, seen from a gentle three-quarter high angle. On the table: small stacks of round pastel chips that look like felt pom-pom coins, a few rounded cream playing cards lying face down with a knitted pattern on the back, and one big chunky eight-sided die (octahedron) made of felt in the center. One plush alpaca peeks excitedly at its cards; another hugs a card close to its chest.
+Palette: warm creamy nursery pastels - cream, blush pink, mint, lavender, caramel - in a warm beige and cocoa room, gentle warm window light, soft shadows.
+Style: high-quality 3D-render-like look of real plush toys photographed in a cozy miniature set, soft focus background, shallow depth of field, very cute and wholesome, tactile fuzzy textures.
+Composition: keep the entire left third quieter, softer and emptier (plain warm creamy background with soft bokeh) for a future title overlay. Place the table and plush toys in the right two-thirds.
+Constraints: exactly one image; no humans, no hands; no text, letters, numbers, digits, logos, watermarks or borders anywhere (cards and die faces show only small stitched hearts, never numerals); not scary, not realistic animals.
+
+Save the final image as a PNG file at: ./key.png (in the current working directory). Then reply with just the saved path.

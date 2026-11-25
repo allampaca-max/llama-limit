@@ -1,0 +1,6 @@
+Use your built-in image generation tool. Transparent background: false.
+
+Create ONE landscape image, approximately 1536 x 1024 pixels, that is a top-down flat photograph of a soft pale sage-mint wool felt fabric surface for a game table background. Uniform even color, subtle fuzzy fiber texture, very gentle soft vignette toward the edges, calm and low contrast so text and cards can sit on top of it.
+Constraints: no objects, no stitching lines, no seams, no folds, no patterns, no text, no watermark.
+
+Save the final image as a PNG file at: ./felt.png (in the current working directory). Then reply with just the saved path.

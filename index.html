@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fbf2e4">
+<title>라마 리밋 · Llama Limit</title>
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Gowun+Dodum&family=Jua&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ───────── 로비 ───────── -->
+<section id="lobby" class="screen">
+  <header class="hero">
+    <img class="hero-art" src="assets/key.jpg" alt="">
+    <div class="lang-toggle" role="group" data-i18n-aria="lang.label">
+      <button type="button" data-act="lang" data-lang="ko">한국어</button>
+      <button type="button" data-act="lang" data-lang="en">English</button>
+    </div>
+    <div class="hero-copy">
+      <div class="eyebrow" data-i18n="hero.eyebrow">2~5인 폭신폭신 카드 게임</div>
+      <h1 data-i18n="game.name">라마 리밋</h1>
+      <p class="sub" data-i18n="hero.sub"></p>
+    </div>
+  </header>
+
+  <div class="lobby-body">
+    <div class="card resume" id="resume-card" hidden>
+      <div><b><span data-i18n="resume.label">진행 중인 방</span> <span id="resume-code"></span></b><br><small id="resume-meta"></small></div>
+      <div class="row">
+        <button class="btn primary" data-act="resume" data-i18n="resume.go">이어하기</button>
+        <button class="btn ghost" data-act="discard-resume" data-i18n="resume.discard">버리기</button>
+      </div>
+    </div>
+
+    <label class="field name-field">
+      <span data-i18n="name.label">내 이름</span>
+      <input id="name" maxlength="12" data-i18n-ph="name.ph" autocomplete="nickname">
+    </label>
+
+    <div class="choices">
+      <button class="choice primary" data-act="show-create"><b data-i18n="choice.create">방 만들기</b><small data-i18n="choice.createSub"></small></button>
+      <button class="choice" data-act="show-join"><b data-i18n="choice.join">참가하기</b><small data-i18n="choice.joinSub"></small></button>
+      <button class="choice" data-act="show-solo"><b data-i18n="choice.solo">혼자 연습</b><small data-i18n="choice.soloSub"></small></button>
+    </div>
+
+    <form id="settings-form" class="card" hidden>
+      <h2 id="settings-title"></h2>
+      <fieldset class="seg-field">
+        <legend data-i18n="set.players">인원</legend>
+        <div class="seg">
+          <label><input type="radio" name="players" value="2" checked><span>2<i data-i18n="unit.ppl">인</i></span></label>
+          <label><input type="radio" name="players" value="3"><span>3<i data-i18n="unit.ppl">인</i></span></label>
+          <label><input type="radio" name="players" value="4"><span>4<i data-i18n="unit.ppl">인</i></span></label>
+          <label><input type="radio" name="players" value="5"><span>5<i data-i18n="unit.ppl">인</i></span></label>
+        </div>
+      </fieldset>
+      <fieldset class="seg-field">
+        <legend data-i18n="set.turn">한 번 고르는 시간</legend>
+        <div class="seg">
+          <label><input type="radio" name="turnSec" value="20"><span>20<i data-i18n="unit.sec">초</i></span></label>
+          <label><input type="radio" name="turnSec" value="40" checked><span>40<i data-i18n="unit.sec">초</i></span></label>
+          <label><input type="radio" name="turnSec" value="60"><span>60<i data-i18n="unit.sec">초</i></span></label>
+        </div>
+      </fieldset>
+      <fieldset class="seg-field">
+        <legend data-i18n="set.ante">기본 베팅 올리기</legend>
+        <div class="seg">
+          <label><input type="radio" name="anteEvery" value="10" checked><span data-i18n="set.ante10">10라운드마다</span></label>
+          <label><input type="radio" name="anteEvery" value="5"><span data-i18n="set.ante5">5라운드마다</span></label>
+          <label><input type="radio" name="anteEvery" value="3"><span data-i18n="set.ante3">3라운드마다</span></label>
+        </div>
+        <p class="hint form-note" data-i18n="set.anteNote"></p>
+      </fieldset>
+      <p class="hint form-note" id="settings-note"></p>
+      <div class="row">
+        <button class="btn primary" type="submit" id="settings-submit"></button>
+        <button class="btn ghost" type="button" data-act="hide-forms" data-i18n="btn.cancel">취소</button>
+      </div>
+    </form>
+
+    <form id="join-form" class="card" hidden>
+      <h2 data-i18n="join.title">참가하기</h2>
+      <label class="field">
+        <span data-i18n="join.code">방 코드 (4자리)</span>
+        <input id="join-code" maxlength="4" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABCD" class="code-input">
+      </label>
+      <div class="row">
+        <button class="btn primary" type="submit" data-i18n="join.go">입장</button>
+        <button class="btn ghost" type="button" data-act="hide-forms" data-i18n="btn.cancel">취소</button>
+      </div>
+    </form>
+
+    <nav class="links">
+      <button class="link" data-act="rules" data-i18n="link.rules">규칙</button>
+      <span aria-hidden="true">·</span>
+      <button class="link" data-act="records" data-i18n="link.records">지난 게임</button>
+    </nav>
+  </div>
+</section>
+
+<!-- ───────── 대기실 ───────── -->
+<section id="room" class="screen" hidden>
+  <div class="room-card card">
+    <div class="eyebrow" data-i18n="room.code">방 코드</div>
+    <div class="room-code" id="room-code">····</div>
+    <div class="share" id="share-box">
+      <input id="share-link" readonly data-i18n-aria="room.linkAria">
+      <button class="btn" data-act="copy-link" data-i18n="room.copy">링크 복사</button>
+    </div>
+    <p class="room-status" id="room-status"></p>
+    <ul class="room-players" id="room-players"></ul>
+    <div class="room-settings" id="room-settings"></div>
+    <div class="row center">
+      <button class="btn primary" data-act="start" id="start-btn" hidden disabled data-i18n="room.start">게임 시작</button>
+      <button class="btn ghost" data-act="leave" data-i18n="btn.leave">나가기</button>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── 게임 ───────── -->
+<section id="game" class="screen" hidden>
+  <header class="bar">
+    <div class="brand"><img src="assets/icon.svg" alt="" class="brand-ico"><span data-i18n="game.name">라마 리밋</span> <span class="chip" id="code-chip"></span></div>
+    <div class="bar-right">
+      <span class="net" id="net"></span>
+      <button class="icon-btn" data-act="pause" id="pause-btn" data-i18n-aria="bar.pause">❚❚</button>
+      <button class="icon-btn" data-act="mute" id="mute-btn" data-i18n-title="bar.sound" data-i18n-aria="bar.sound">♪</button>
+      <div class="menu-wrap">
+        <button class="icon-btn" data-act="menu" data-i18n-aria="menu.aria" aria-haspopup="true">⋯</button>
+        <div class="menu" id="menu" hidden>
+          <button data-act="rules" data-i18n="link.rules">규칙</button>
+          <button data-act="lang-flip" data-i18n="menu.lang">English</button>
+          <button data-act="resign" id="resign-btn" data-i18n="menu.resign">기권</button>
+          <button data-act="leave" data-i18n="btn.leave">나가기</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="game-grid">
+    <div class="table-col">
+      <div class="table" id="table">
+        <div class="hud" id="hud"></div>
+        <div class="opps" id="opps"></div>
+        <div class="table-center" id="center"></div>
+        <div class="me-wrap" id="me-seat"></div>
+        <div id="bubbles" aria-hidden="true"></div>
+        <div class="table-overlay" id="overlay" hidden></div>
+      </div>
+    </div>
+    <aside class="side">
+      <div class="phase" id="phase">
+        <div class="phase-top">
+          <div class="phase-label" id="phase-label"></div>
+          <div class="timer" id="timer">0:00</div>
+        </div>
+        <div class="timebar"><i id="timebar"></i></div>
+      </div>
+      <div class="panel" id="panel"></div>
+      <div class="emotes" id="emotes">
+        <button data-act="emote" data-e="👍">👍</button>
+        <button data-act="emote" data-e="😏">😏</button>
+        <button data-act="emote" data-e="😱">😱</button>
+        <button data-act="emote" data-e="🤔">🤔</button>
+        <button data-act="emote" data-e="🦙">🦙</button>
+        <button data-act="emote" data-e="ㅋㅋ" data-i18n="emote.lol">ㅋㅋ</button>
+      </div>
+      <details class="log" id="log-box">
+        <summary data-i18n="log.title">기록</summary>
+        <ol id="log"></ol>
+      </details>
+    </aside>
+  </div>
+</section>
+
+<!-- ───────── 모달 ───────── -->
+<div class="modal" id="modal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true">
+    <button class="modal-x icon-btn" data-act="close-modal" data-i18n-aria="btn.close">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="i18n.js"></script>
+<script src="engine.js"></script>
+<script src="bot.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
