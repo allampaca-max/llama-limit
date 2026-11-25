@@ -928,10 +928,14 @@
     let mid;
     if (o && (v.phase === 'result' || v.phase === 'over')) {
       const head = o.allBust ? tr('win.allBust') : o.split ? tr('win.split') : tr('win.one', { name: esc(nameOf(o.winners[0])) });
+      const ws = winScore(o);
+      const gain = `<span class="wb-gain"><i class="chip-ico"></i>${o.split ? o.winners.map((s) => '+' + o.gains[s]).join(' / ') : '+' + o.pot}</span>`;
+      const score = ws && !ws.allBust
+        ? `<div class="wb-score"><span class="wb-n">${numLabel(ws.sum)}</span><small>${tr('win.of', { L: r.limit })}</small>${gain}</div>${ws.byCount ? `<small class="wb-note">${tr('win.byCount', { n: ws.count })}</small>` : ''}`
+        : gain;
       mid = `<div class="win-banner ${o.winners.includes(v.me) ? 'mine' : ''}">
-        <div class="wb-avas">${o.winners.map((s) => `<span style="${seatVars(s)}">${avaImg(s)}</span>`).join('')}</div>
-        <b>${head}</b>
-        <span class="wb-gain"><i class="chip-ico"></i>${o.split ? o.winners.map((s) => '+' + o.gains[s]).join(' / ') : '+' + o.pot}</span>
+        <div class="wb-top"><div class="wb-avas">${o.winners.map((s) => `<span style="${seatVars(s)}">${avaImg(s)}</span>`).join('')}</div><b>${head}</b></div>
+        ${score}
       </div>`;
     } else {
       mid = `<div class="pot-block"><div class="pot-pile">${potPile(r.pot)}</div><b class="pot-num">${r.pot}</b><small>${tr('center.pot')}</small></div>`;
@@ -939,6 +943,15 @@
     const deck = `<div class="deck-block"><div class="deck-stack ${r.deckLeft ? '' : 'empty'}"><i></i><i></i><i></i></div><b>${r.deckLeft}</b><small>${tr('center.deck')}</small></div>`;
     return `<div class="center-row">${die}${mid}${deck}</div>`;
   }
+  // 쇼다운에서 이긴 합, 같은 합을 카드 수로 이겼는지
+  function winScore(o) {
+    if (!o || o.reason !== 'showdown' || !o.rows) return null;
+    const w = o.rows.find((x) => x.seat === o.winners[0]);
+    if (!w) return null;
+    const byCount = !o.allBust && o.rows.some((x) => !x.bust && x.sum === w.sum && x.count < w.count);
+    return { sum: w.sum, count: w.count, byCount, allBust: !!o.allBust };
+  }
+  const numLabel = (n) => (n < 0 ? '−' + Math.abs(n) : String(n));
   function potPile(n) {
     const k = Math.min(9, Math.max(1, Math.ceil(n / 3)));
     let s = '';
@@ -1143,8 +1156,10 @@
     let head;
     if (o.reason === 'fold') head = tr('res.foldWin', { name: esc(nameOf(o.winners[0])), n: o.pot });
     else if (o.allBust) head = tr('res.allBust', { n: o.pot });
-    else if (o.split) head = tr('res.split', { names: o.winners.map((s) => esc(nameOf(s))).join(', '), n: o.pot });
-    else head = tr('res.win', { name: esc(nameOf(o.winners[0])), n: o.pot });
+    else if (o.split) head = tr('res.split', { names: o.winners.map((s) => esc(nameOf(s))).join(', '), n: o.pot, s: numLabel(winScore(o).sum) });
+    else head = tr('res.win', { name: esc(nameOf(o.winners[0])), n: o.pot, s: numLabel(winScore(o).sum) });
+    const ws = winScore(o);
+    if (ws && ws.byCount) head += ` <small class="res-note">${tr('win.byCount', { n: ws.count })}</small>`;
     const hands = o.reason === 'showdown' ? v.rounds[v.rounds.length - 1].hands : null;
     const elim = o.eliminated.length ? `<p class="elim">${tr('res.elim', { names: o.eliminated.map((s) => esc(nameOf(s))).join(', ') })}</p>` : '';
     const ready = r.ready[me];
@@ -1200,8 +1215,11 @@
         let s;
         if (e.reason === 'fold') s = tr('log.winFold', { name: who, n: e.pot });
         else if (e.allBust) s = tr('log.allBust', { n: e.pot });
-        else if (e.winners.length > 1) s = tr('log.split', { names: who, n: e.pot });
-        else s = tr('log.win', { name: who, n: e.pot });
+        else {
+          const ws = winScore({ reason: e.reason, rows: e.rows, winners: e.winners, allBust: e.allBust });
+          const sum = ws ? numLabel(ws.sum) : '?';
+          s = e.winners.length > 1 ? tr('log.split', { names: who, n: e.pot, s: sum }) : tr('log.win', { name: who, n: e.pot, s: sum });
+        }
         if (e.eliminated && e.eliminated.length) s += ' · ' + tr('log.elim', { names: e.eliminated.map(nm).join(', ') });
         return `<span class="log-win">${s}</span>`;
       }
@@ -1572,7 +1590,8 @@
       <span class="meta">${r.out ? (r.resigned ? tr('over.resignedAt', { n: r.outRound }) : tr('over.outAt', { n: r.outRound })) : ''}</span><b class="tot">${r.out ? '' : r.chips}</b></li>`).join('');
     const rounds = rec.rounds.slice().reverse().map((rd) => {
       const who = rd.winners.map((s) => `<b style="color:${pal(s).dark}">${esc(recName(rec, s))}</b>`).join(', ');
-      const what = rd.reason === 'fold' ? tr('rp.byFold') : rd.allBust ? tr('rp.allBust') : rd.winners.length > 1 ? tr('rp.split') : '';
+      const wsum = rd.reason === 'showdown' && !rd.allBust && rd.hands && rd.hands[rd.winners[0]] ? rd.hands[rd.winners[0]].reduce((a, b) => a + b, 0) : null;
+      const what = rd.reason === 'fold' ? tr('rp.byFold') : rd.allBust ? tr('rp.allBust') : (wsum != null ? tr('rp.with', { s: numLabel(wsum) }) : '') + (rd.winners.length > 1 ? ' ' + tr('rp.split') : '');
       const hands = rd.hands ? rd.hands.map((h, s) => (h ? `<span class="rp-hand" style="${seatVars(s)}"><i class="dot"></i>${h.map((x) => `<i class="tc ${x < 0 ? 'neg' : ''}">${cardLabel(x)}</i>`).join('')}<small>=${h.reduce((a, b) => a + b, 0)}</small></span>` : '')).join('') : '';
       return `<tr><td>${rd.no}</td><td><span class="lim">${rd.limit}</span></td><td>${rd.pot}</td><td>${who} ${what ? `<small>${what}</small>` : ''}<div class="rp-hands">${hands}</div></td></tr>`;
     }).join('');
